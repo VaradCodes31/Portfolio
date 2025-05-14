@@ -15,10 +15,10 @@ export const AboutSection = () => {
             </h3>
 
             <p className="text-muted-foreground">
-              I'm an aspiring Data Scientist with a strong foundation 
-              in statistics, machine learning, and quantitative analysis. 
-              I enjoy working with data to uncover insights and build 
-              intelligent solutions using modern tools and technologies.
+              I'm an aspiring Data Scientist with a solid foundation in statistics,
+              machine learning, and quantitative analysis. I’m passionate about turning
+              data into actionable insights and building intelligent solutions using modern
+              tools and technologies.
             </p>
 
             <p className="text-muted-foreground">
