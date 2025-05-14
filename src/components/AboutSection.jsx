@@ -16,7 +16,7 @@ export const AboutSection = () => {
 
             <p className="text-muted-foreground">
               I'm an aspiring Data Scientist with a solid foundation in statistics,
-              machine learning, and quantitative analysis. I’m passionate about turning
+              machine learning, and quantitative analysis. I am passionate about turning
               data into actionable insights and building intelligent solutions using modern
               tools and technologies.
             </p>
