@@ -1,32 +1,24 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 
 const projects = [
+
   {
     id: 1,
-    title: "Carbon Footprint Calculator",
-    description: "A beautifully designed carbon footprint calculator built with React, Tailwind CSS, and TypeScript, helping users estimate their environmental impact.",
-    image: "/Images/CFC_SS.jpg",
-    tags: ["React", "TailwindCSS", "TypeScript"],
-    demoUrl: "https://calculate-carbon-footprint.netlify.app/",
-    githubUrl: "https://github.com/VaradCodes31/Carbon-Footprint-Calculator",
+    title: "Movie Success Prediction and Recommendation Engine",
+    description:
+      "Machine Learning + NLP based system which predicts movie success based on plot, and other parameters. Also provides recommendations based on user input.",
+    image: "/Images/Movies.png",
+    tags: ["Python", "scikit-learn", "XGBoost", "Light-GBM", "Sentence-BERT", "SHAP"],
+    githubUrl: "https://github.com/VaradCodes31/Movie-Success-Prediction",
   },
   {
     id: 2,
-    title: "F1 2025 Race Prediction Model",
+    title: "Customer Churn Prediction and Retention System",
     description:
-      "Machine learning-powered F1 race prediction model that forecasts the winning driver using real-time and historical race data.",
-    image: "/Images/F1.jpg",
-    tags: ["Python", "scikit-learn", "pandas"],
-    githubUrl: "https://github.com/VaradCodes31/F1-Race-Prediction",
-  },
-  {
-    id: 3,
-    title: "Stock Price Prediction Model",
-    description:
-      "This project involves building a stock price prediction model to forecast future prices of the Yahoo Finance ('yfinance') library stock using historical data and machine learning techniques.",
-    image: "/Images/Stock-Price-Prediction.jpg",
-    tags: ["Python", "scikit-learn", "yfinance"],
-    githubUrl: "https://github.com/VaradCodes31/Stock-Prediction-Project",
+      "Built and engineered a full-stack ML pipeline to predict customer churn. Added XAI to identify high-impact churn drivers",
+    image: "/Images/Customer_Churn.png",
+    tags: ["Python", "scikit-learn", "Streamlit", "SHAP"],
+    githubUrl: "https://github.com/VaradCodes31/customer-churn-prediction",
   },
 ];
 
