@@ -4,21 +4,21 @@ const projects = [
 
   {
     id: 1,
-    title: "Movie Success Prediction and Recommendation Engine",
+    title: "Netsage IDS - Explainable Intrusion Detection System",
     description:
-      "Machine Learning + NLP based system which predicts movie success based on plot, and other parameters. Also provides recommendations based on user input.",
-    image: "/Images/Movies.png",
-    tags: ["Python", "scikit-learn", "XGBoost", "Light-GBM", "Sentence-BERT", "SHAP"],
-    githubUrl: "https://github.com/VaradCodes31/Movie-Success-Prediction",
+      "NetSage IDS is an explainable intrusion detection system using XGBoost and SHAP to accurately detect network attacks and provide interpretable insights via an interactive dashboard.",
+    image: "/Images/NetSageIDS.jpg",
+    tags: ["Python", "scikit-learn", "XGBoost", "Streamlit", "Pandas", "SHAP", "NumPy", "Matplotlib"],
+    githubUrl: "https://github.com/VaradCodes31/IntrusionDetectionSystem",
   },
   {
     id: 2,
-    title: "Customer Churn Prediction and Retention System",
+    title: "BlockGuard - Smart Contract Vulnerability Detection System",
     description:
-      "Built and engineered a full-stack ML pipeline to predict customer churn. Added XAI to identify high-impact churn drivers",
-    image: "/Images/Customer_Churn.png",
-    tags: ["Python", "scikit-learn", "Streamlit", "SHAP"],
-    githubUrl: "https://github.com/VaradCodes31/customer-churn-prediction",
+      "An AI-powered Intrusion Detection System that analyzes network traffic using machine learning and deep learning models to detect and explain cyber threats in real time.",
+    image: "/Images/BlockGuard.jpg",
+    tags: ["Python", "tensorflow", "scikit-learn", "Streamlit", "SHAP", "NumPy", "Pandas"],
+    githubUrl: "https://github.com/VaradCodes31/BlockGuard",
   },
 ];
 
