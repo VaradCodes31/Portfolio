@@ -20,6 +20,15 @@ const projects = [
     tags: ["Python", "tensorflow", "scikit-learn", "Streamlit", "SHAP", "NumPy", "Pandas"],
     githubUrl: "https://github.com/VaradCodes31/BlockGuard",
   },
+  {
+    id: 3,
+    title: "SyndromeAI - Quantum Error Detection System",
+    description:
+      "SyndromeAI is a Deep Learning-based system which expertly identifies quantum errors using a hybbrid DL approach",
+    image: "/Images/SyndromeAI.jpg",
+    tags: ["Python", "Qiskit", "PyTorch", "TensorFlowQuantum", "NumPy", "Pandas", "Transformer Architecure", "Deep Learning"],
+    githubUrl: "https://github.com/VaradCodes31/Quantum-Error-Detection",
+  },
 ];
 
 export const ProjectSection = () => {
