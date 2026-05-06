@@ -15,7 +15,7 @@ const projects = [
     id: 2,
     title: "BlockGuard - Smart Contract Vulnerability Detection System",
     description:
-      "An AI-powered Intrusion Detection System that analyzes network traffic using machine learning and deep learning models to detect and explain cyber threats in real time.",
+      "An AI-powered hybrid system, which uses both Machine Learning and Deep Learning to detect vulnerabilities in Smart Contracts.",
     image: "/Images/BlockGuard.jpg",
     tags: ["Python", "tensorflow", "scikit-learn", "Streamlit", "SHAP", "NumPy", "Pandas"],
     githubUrl: "https://github.com/VaradCodes31/BlockGuard",
@@ -59,7 +59,7 @@ export const ProjectSection = () => {
                   project_{project.id}.sh
                 </span>
               </div>
-              
+
               <div className="h-48 overflow-hidden relative">
                 <img
                   src={project.image}
@@ -78,7 +78,7 @@ export const ProjectSection = () => {
                   ))}
                 </div>
 
-                <h3 className="text-xl font-bold mb-2 font-sans group-hover:text-primary transition-colors"> 
+                <h3 className="text-xl font-bold mb-2 font-sans group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6 leading-relaxed flex-grow">
