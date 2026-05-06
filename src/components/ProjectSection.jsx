@@ -49,44 +49,60 @@ export const ProjectSection = () => {
           {projects.map((project, key) => (
             <div
               key={key}
-              className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover"
+              className="group terminal-window card-hover flex flex-col h-full"
             >
-              <div className="h-48 overflow-hidden">
+              <div className="terminal-header">
+                <div className="dot-red"></div>
+                <div className="dot-yellow"></div>
+                <div className="dot-green"></div>
+                <span className="ml-2 text-[10px] text-muted-foreground font-mono truncate">
+                  project_{project.id}.sh
+                </span>
+              </div>
+              
+              <div className="h-48 overflow-hidden relative">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
                 />
+                <div className="absolute inset-0 bg-primary/10 mix-blend-overlay group-hover:bg-transparent transition-colors" />
               </div>
 
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span key={tagIndex} className="px-2 py-0.5 text-[10px] font-mono border border-primary/20 rounded bg-primary/5 text-primary">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="text-xl font-semibold mb-1"> {project.title}</h3>
-                <p className="text-muted-foreground text-sm mb-4">
+                <h3 className="text-xl font-bold mb-2 font-sans group-hover:text-primary transition-colors"> 
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6 leading-relaxed flex-grow">
                   {project.description}
                 </p>
-                <div className="flex justify-between items-center">
-                  <div className="flex space-x-3">
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                    >
-                      <ExternalLink size={20} />
-                    </a>
+                <div className="flex justify-between items-center pt-4 border-t border-border/50">
+                  <div className="flex space-x-4">
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground/60 hover:text-primary transition-colors duration-300 flex items-center gap-1 text-xs"
+                      >
+                        <ExternalLink size={16} /> Live
+                      </a>
+                    )}
                     <a
                       href={project.githubUrl}
                       target="_blank"
-                      className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                      rel="noopener noreferrer"
+                      className="text-foreground/60 hover:text-primary transition-colors duration-300 flex items-center gap-1 text-xs"
                     >
-                      <Github size={20} />
+                      <Github size={16} /> Source
                     </a>
                   </div>
                 </div>

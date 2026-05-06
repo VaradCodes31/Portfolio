@@ -60,6 +60,9 @@ export const StarBackground = () => {
 
     return (
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            {/* Grid Overlay */}
+            <div className="absolute inset-0 bg-grid opacity-20" />
+            
             {stars.map((star) => (
                 <div key={star.id} className="star animate-pulse-subtle" style={{
                     width: star.size + "px",
