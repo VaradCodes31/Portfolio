@@ -3,76 +3,142 @@ import { useState, useEffect } from "react";
 
 const DEFAULT_LOGS = [
   {
+    id: "log-086",
+    entryNumber: "086",
+    date: "August 2026",
+    title: "Designing Asynchronous Telemetry Pipelines: Ingesting Millions of Event Streams Without Backpressure",
+    category: "Data Engineering",
+    readTime: "5 min read",
+    summary:
+      "How to architect high-throughput asynchronous ingestion pipelines using Python, FastAPI workers, and JSONL data lakes while eliminating memory buffer bottlenecks.",
+    content: `### The Ingestion Bottleneck at Scale
+When processing millions of high-frequency data packets (such as the 2.8M+ network flows in the CICIDS dataset), standard synchronous logging quickly overwhelms RAM and blocks network threads.
+
+### The Asynchronous Buffer Strategy
+To prevent system lockup, we built an asynchronous telemetry queue with decoupled producers and consumers:
+
+1. **Non-Blocking Ingestion**: Incoming API requests write directly to an in-memory ring buffer with zero disk I/O latency.
+2. **Batch Flusher**: Background worker coroutines aggregate chunks of 5,000 records and stream them into structured JSONL storage using compressed gzip streams.
+3. **Active Learning Hook**: An event-driven listener flags anomalous flows directly to the model retraining pipeline.
+
+### Engineering Takeaway
+Decoupling disk writes from network listeners allowed the engine to process sustained spikes of 45,000 requests/sec with under 4ms latency jitter.`,
+    tags: ["Data Pipelines", "FastAPI", "Python", "Systems"],
+    marginalNote: "Rule of thumb: Never let disk I/O block your network event loop!",
+  },
+  {
     id: "log-085",
     entryNumber: "085",
-    date: "August 2026",
-    title: "From Navier-Stokes to Fourier Neural Operators: How Spectral Convolutions Bypass FEM Bottlenecks",
-    category: "Neural Operators",
+    date: "July 2026",
+    title: "Why Feature Attribution (SHAP) is the Antidote to Black-Box AI Hallucinations in Production",
+    category: "Machine Learning & XAI",
     readTime: "6 min read",
     summary:
-      "A deep dive into why classical finite-element simulations scale poorly on 3D manifolds, and how learning frequency-domain kernels in Fourier space yields resolution-invariant PDE surrogates.",
-    content: `### The Classical FEM Scaling Problem
-When evaluating structural response fields under arbitrary geometry constraints, standard finite-element solvers (FEM) discretize the domain into millions of mesh elements. For high-fidelity 3D structural analysis, solving the resulting linear system $K \\cdot u = f$ takes anywhere from 20 minutes to several hours per single geometry variation.
+      "A deep dive into why accuracy metrics lie, and how computing Shapley values provides mathematically sound transparency into complex tree and neural architectures.",
+    content: `### The Myth of 99% Accuracy
+In high-stakes domains—like cybersecurity intrusion detection and automated smart contract auditing—a model claiming "99% accuracy" is often overfitted to trivial artifacts (e.g. timestamp correlation or compiler signatures).
 
-### Enter Fourier Neural Operators (FNO)
-Unlike traditional CNNs which operate on fixed grid discretizations and cannot generalize to unseen mesh resolutions, Fourier Neural Operators parameterize the integral kernel directly in frequency space:
+### Computing Game-Theoretic Shapley Values
+SHAP (SHapley Additive exPlanations) resolves this by evaluating every feature's marginal contribution across all possible feature subsets:
 
-$$\\mathcal{K}(v)(x) = \\mathcal{F}^{-1}\\Big( R(k) \\cdot (\\mathcal{F}v)(k) \\Big)(x)$$
+$$\\phi_i(x) = \\sum_{S \\subseteq F \\setminus \\{i\\}} \\frac{|S|! (|F| - |S| - 1)!}{|F|!} \\Big( f(S \\cup \\{i\\}) - f(S) \\Big)$$
 
-By mapping spatial domain representations into Fourier space via 3D FFT, multiplying by learnable complex weight tensors $R(k)$, and filtering high-frequency noise, FNO learns the mapping between continuous function spaces rather than discrete tensors.
+In NetSage IDS and SyndromeAI, this allowed us to generate instant "Glass-Box Waterfall Plots" that prove *why* an alert fired—correlating predictions directly to network anomaly metrics and physical noise principles.
 
-### Key Engineering Takeaway
-At Rolls Royce Power Systems, integrating residual connections around the spectral convolution layers boosted $R^2$ to 99.77% while dropping inference latency from 45 minutes to under 15 milliseconds.`,
-    tags: ["Neural Operators", "PyTorch", "Physics-ML", "Rolls Royce"],
-    marginalNote: "Key insight: low-frequency modes govern 98% of total mechanical strain energy!",
+### Key Lesson
+Explainability isn't just a luxury for researchers; it is the fundamental bridge that allows human operators to trust machine intelligence.`,
+    tags: ["SHAP", "Explainable AI", "Machine Learning", "XGBoost"],
+    marginalNote: "If an AI decision can't be explained to an analyst in 10 seconds, it won't be used in production.",
   },
   {
     id: "log-084",
     entryNumber: "084",
-    date: "April 2026",
-    title: "Resolving Gate vs Measurement Noise in Superconducting Qubits with Physics-Informed Likelihoods",
-    category: "Quantum Computing",
+    date: "June 2026",
+    title: "Dissecting EVM Bytecode: What Opcodes Reveal About Re-Entrancy and Arithmetic Exploits",
+    category: "Cybersecurity",
     readTime: "5 min read",
     summary:
-      "How injecting theoretical Pauli noise likelihood ratios into a 5-model soft-voting ensemble resolved statistical overlap between bit-flip and readout errors on Qiskit Aer simulations.",
-    content: `### The Overlap Dilemma in Quantum Error Detection
-In noisy intermediate-scale quantum (NISQ) devices, detecting syndrome errors is complicated by the fact that gate-level Pauli errors (Bit Flip $X$, Phase Flip $Z$) often produce syndrome measurement signatures indistinguishable from readout noise.
+      "Why analyzing compiled Solidity opcode instruction sequences using sequence models outperforms high-level source code parsing.",
+    content: `### The Vulnerability Hiding in Compiled Bytecode
+Source code can be easily obfuscated, but compiled Ethereum Virtual Machine (EVM) bytecode never lies. Every transfer of Ether boils down to an explicit sequence of low-level instructions: $CALLVALUE$, $SLOAD$, $JUMP$, and $SSTORE$.
 
-### Injecting Physical Likelihood Ratios
-Rather than forcing a neural network to learn noise distributions from raw syndrome counts alone, we augmented the feature space with theoretical quantum mechanics likelihood ratios:
+### Tracking State Mutation Order
+In BlockGuard, we deconstructed smart contract bytecode to identify the classic re-entrancy anti-pattern:
+- A $CALL$ opcode executing *before* the internal balance $SSTORE$ instruction updates the state.
 
-$$Q[i] = \\frac{\\mathcal{L}(x_i \\mid \\text{Gate Noise})}{\\mathcal{L}(x_i \\mid \\text{Readout Noise})}$$
-
-This physics-informed feature layer gave our 5-model soft-voting ensemble (MLP, Random Forest, Extra Trees, HistGradientBoosting) the exact inductive bias needed to classify errors across all 4 noise channels with 99.4% accuracy.`,
-    tags: ["Quantum Computing", "Qiskit", "XAI", "Ensemble ML"],
-    marginalNote: "Tested on 1,024 shot simulations with binomial noise distributions.",
+By pairing Bi-Directional LSTM sequence embeddings with heuristic random forests, we captured temporal instruction flows while keeping P95 scan times under 0.85 seconds—over 200x faster than traditional symbolic execution engines.`,
+    tags: ["Solidity", "Smart Contracts", "Security", "Bytecode"],
+    marginalNote: "Bytecode is the ground truth; high-level source code is just syntactic sugar.",
   },
   {
     id: "log-083",
     entryNumber: "083",
-    date: "March 2026",
-    title: "Demystifying Smart Contract Bytecode with Opcode Sequence Modeling & Glass-Box SHAP",
-    category: "Security & XAI",
+    date: "May 2026",
+    title: "Architecting Real-Time SOC Dashboards: React 19, FastAPI & Forensic Visualizations",
+    category: "Full-Stack Systems",
     readTime: "4 min read",
     summary:
-      "Why combining LSTM temporal sequence models with tree-based heuristic filters prevents neural overconfidence when detecting re-entrancy bugs in compiled Solidity opcodes.",
-    content: `### Why Symbolic Execution Tools Are Too Slow for CI/CD
-Traditional formal verification tools like Mythril and Slither rely on symbolic execution, often taking 2–5 minutes per smart contract. In modern DevSecOps pipelines, security analysis needs to be sub-second.
+      "Practical design patterns for building high-fidelity forensic dashboards that render live anomaly metrics, confusion matrices, and interactive ROC curves smoothly.",
+    content: `### The UI Challenge: Density Without Overwhelm
+Security Operations Center (SOC) dashboards are notorious for overwhelming analysts with walls of red alerts and unreadable data tables.
 
-### The Hybrid Architecture
-In BlockGuard, we built a disassembler that parses Solidity bytecode directly into opcode instruction sequences ($JUMP$, $SLOAD$, $CALLVALUE$). Feeding these token streams into a bi-directional LSTM yielded high sensitivity, but tree-based heuristic filters were crucial to filter out neural hallucinations on out-of-distribution opcodes.
+### Design Principles for Technical Tooling
+1. **Hierarchical Card Architecture**: High-level anomaly gauges at the top, expandable forensic drilldowns on click.
+2. **Zero-Lag Chart Rendering**: Utilizing canvas-backed Chart.js and Recharts with throttled state updates to prevent browser layout thrashing during live traffic simulations.
+3. **Glass-Box Drilldowns**: Clicking any attack flow immediately renders the exact SHAP feature breakdown in a slide-out drawer.
 
-### The Result
-Achieved 97.2% classification accuracy with an average P95 latency of 0.85s—more than 200x faster than symbolic execution baselines.`,
-    tags: ["Solidity", "LSTM", "Security", "SHAP"],
-    marginalNote: "Sub-second scanning means security checks can run on every single git push!",
+### Takeaway
+Great developer tooling blends high information density with intuitive spatial hierarchy.`,
+    tags: ["React 19", "FastAPI", "Full-Stack", "Data Viz"],
+    marginalNote: "Design for speed: security analysts make decisions in split seconds.",
+  },
+  {
+    id: "log-082",
+    entryNumber: "082",
+    date: "April 2026",
+    title: "From Navier-Stokes to Fourier Neural Operators: Continuous PDE Surrogates on 3D Manifolds",
+    category: "Scientific ML",
+    readTime: "6 min read",
+    summary:
+      "How learning frequency-domain kernels in Fourier space allows deep learning models to solve partial differential equations resolution-invariantly.",
+    content: `### Breaking the Mesh Discretization Bottleneck
+Classical finite-element methods (FEM) require discretizing continuous physical domains into millions of mesh elements, taking hours for complex 3D geometries.
+
+### The Fourier Neural Operator (FNO) Formula
+Unlike standard CNNs, Fourier Neural Operators learn mappings between continuous infinite-dimensional function spaces:
+
+$$\\mathcal{K}(v)(x) = \\mathcal{F}^{-1}\\Big( R(k) \\cdot (\\mathcal{F}v)(k) \\Big)(x)$$
+
+At Rolls Royce Power Systems, embedding residual connections around 3D spectral convolutions enabled real-time structural response evaluations with a 99.77% R² score in under 15ms.`,
+    tags: ["Neural Operators", "PyTorch", "Scientific ML", "Physics"],
+    marginalNote: "Spectral methods transform spatial convolutions into direct element-wise multiplications!",
+  },
+  {
+    id: "log-081",
+    entryNumber: "081",
+    date: "March 2026",
+    title: "The 3 AM Debugging Lesson: When the Bug Isn't Your Code, But Your Data Assumptions",
+    category: "Data Engineering",
+    readTime: "4 min read",
+    summary:
+      "A personal story on tracking down a subtle tensor dimension mismatch and why rigorous data sanity checks save weeks of wasted GPU training runs.",
+    content: `### The Phantom Loss Spike
+While training a multi-class classifier on 2.8M network records, the validation loss would randomly spike to NaN on epoch 14 without any obvious exception thrown.
+
+### The Root Cause
+After 6 hours of line-by-line debugging at 3 AM, the issue wasn't the neural architecture or gradient clipping—it was a single corrupted upstream CSV row where a comma in a user-agent string shifted all numerical columns by one index.
+
+### The Golden Rule
+Always validate data at ingestion with strict schema enforcement (Pydantic / Pandera) before a single tensor ever touches the GPU.`,
+    tags: ["Debugging", "Best Practices", "Python", "Data Quality"],
+    marginalNote: "Garbage in, NaN out. Always assert tensor shapes and check for NaNs at the pipeline boundary.",
   },
 ];
 
 export const BlogSection = () => {
   const [logs, setLogs] = useState(() => {
     try {
-      const saved = localStorage.getItem("varad_field_logs");
+      const saved = localStorage.getItem("varad_field_logs_v2");
       if (saved) {
         return JSON.parse(saved);
       }
@@ -90,23 +156,30 @@ export const BlogSection = () => {
   // New Log Form State
   const [newLogData, setNewLogData] = useState({
     title: "",
-    category: "Neural Operators",
+    category: "Data Engineering",
     readTime: "5 min read",
     summary: "",
     content: "",
     marginalNote: "",
-    tags: "Machine Learning, Deep Learning",
+    tags: "Engineering, Systems, Python",
   });
 
   useEffect(() => {
     try {
-      localStorage.setItem("varad_field_logs", JSON.stringify(logs));
+      localStorage.setItem("varad_field_logs_v2", JSON.stringify(logs));
     } catch (e) {
       console.error(e);
     }
   }, [logs]);
 
-  const categories = ["All", "Neural Operators", "Quantum Computing", "Security & XAI", "Scientific ML"];
+  const categories = [
+    "All",
+    "Data Engineering",
+    "Machine Learning & XAI",
+    "Cybersecurity",
+    "Full-Stack Systems",
+    "Scientific ML",
+  ];
 
   const filteredLogs = logs.filter((log) => {
     const matchesCategory = selectedCategory === "All" || log.category === selectedCategory;
@@ -123,7 +196,7 @@ export const BlogSection = () => {
 
     const newEntry = {
       id: `log-${Date.now()}`,
-      entryNumber: String(logs.length + 83).padStart(3, "0"),
+      entryNumber: String(logs.length + 81).padStart(3, "0"),
       date: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }),
       title: newLogData.title,
       category: newLogData.category,
@@ -138,12 +211,12 @@ export const BlogSection = () => {
     setIsCreatingLog(false);
     setNewLogData({
       title: "",
-      category: "Neural Operators",
+      category: "Data Engineering",
       readTime: "5 min read",
       summary: "",
       content: "",
       marginalNote: "",
-      tags: "Machine Learning, Deep Learning",
+      tags: "Engineering, Systems, Python",
     });
   };
 
@@ -156,7 +229,7 @@ export const BlogSection = () => {
           <div>
             <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
               <span className="w-2 h-2 rounded-full bg-amber-400" />
-              SECTION 04.5 // RESEARCH FIELD NOTES & LOGBOOK
+              SECTION 05 // RESEARCH FIELD NOTES & ENGINEERING LOGS
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans">
               Engineering Logs & Technical Writing
@@ -175,9 +248,9 @@ export const BlogSection = () => {
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 p-3 rounded-xl bg-[#121927] border border-[#24344d]">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8 p-3 rounded-xl bg-[#121927] border border-[#24344d]">
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1.5 w-full sm:w-auto">
+          <div className="flex flex-wrap gap-1.5 w-full lg:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -194,11 +267,11 @@ export const BlogSection = () => {
           </div>
 
           {/* Search Input */}
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full lg:w-64">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search research logs..."
+              placeholder="Search by topic or tag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#0b101b] border border-[#22334e] text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-hidden focus:border-amber-400"
@@ -233,7 +306,7 @@ export const BlogSection = () => {
                 </span>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-white font-sans group-hover:text-amber-300 transition-colors leading-snug mb-3">
+                <h3 className="text-base sm:text-lg font-bold text-white font-sans group-hover:text-amber-300 transition-colors leading-snug mb-3">
                   {log.title}
                 </h3>
 
@@ -366,7 +439,7 @@ export const BlogSection = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Scaling Spectral Convolutions to 3D High-Reynolds Manifolds"
+                  placeholder="e.g. Designing High-Throughput Stream Processing with FastAPI Workers"
                   value={newLogData.title}
                   onChange={(e) => setNewLogData({ ...newLogData, title: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-[#0e1522] border border-[#243450] text-slate-100 placeholder-slate-500 focus:outline-hidden focus:border-amber-400"
@@ -381,9 +454,10 @@ export const BlogSection = () => {
                     onChange={(e) => setNewLogData({ ...newLogData, category: e.target.value })}
                     className="w-full px-3 py-2.5 rounded-lg bg-[#0e1522] border border-[#243450] text-slate-100 focus:outline-hidden focus:border-amber-400"
                   >
-                    <option>Neural Operators</option>
-                    <option>Quantum Computing</option>
-                    <option>Security & XAI</option>
+                    <option>Data Engineering</option>
+                    <option>Machine Learning & XAI</option>
+                    <option>Cybersecurity</option>
+                    <option>Full-Stack Systems</option>
                     <option>Scientific ML</option>
                     <option>System Architecture</option>
                   </select>
@@ -406,7 +480,7 @@ export const BlogSection = () => {
                 <textarea
                   required
                   rows="6"
-                  placeholder="Document your mathematical derivation, experiment results, or engineering takeaways here..."
+                  placeholder="Document your architectural choices, debugging triumphs, or engineering takeaways here..."
                   value={newLogData.content}
                   onChange={(e) => setNewLogData({ ...newLogData, content: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-[#0e1522] border border-[#243450] text-slate-100 placeholder-slate-500 focus:outline-hidden focus:border-amber-400 font-sans text-sm resize-none"
@@ -417,7 +491,7 @@ export const BlogSection = () => {
                 <label className="block text-slate-300 mb-1 font-semibold">// HANDWRITTEN MARGINAL NOTE</label>
                 <input
                   type="text"
-                  placeholder="e.g. Note: Tested on NVIDIA A100 GPU cluster at 3 AM."
+                  placeholder="e.g. Note: Always test edge cases with synthetic traffic before deployment."
                   value={newLogData.marginalNote}
                   onChange={(e) => setNewLogData({ ...newLogData, marginalNote: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-[#0e1522] border border-[#243450] text-slate-100 placeholder-slate-500 focus:outline-hidden focus:border-amber-400"
@@ -428,7 +502,7 @@ export const BlogSection = () => {
                 <label className="block text-slate-300 mb-1 font-semibold">// TAGS (COMMA SEPARATED)</label>
                 <input
                   type="text"
-                  placeholder="Neural Operators, PyTorch, Physics"
+                  placeholder="Data Engineering, Python, Systems"
                   value={newLogData.tags}
                   onChange={(e) => setNewLogData({ ...newLogData, tags: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-[#0e1522] border border-[#243450] text-slate-100 placeholder-slate-500 focus:outline-hidden focus:border-amber-400"
