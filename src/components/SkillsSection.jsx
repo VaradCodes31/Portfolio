@@ -1,96 +1,195 @@
-import { cn } from "@/lib/utils";
-import { Code2, Brain, BarChart3, Wrench, Terminal } from "lucide-react";
+import { Binary, Box, CheckCircle2, Code2, Cpu, Database, Flame, Layers, Network, Sparkles, Terminal, Wrench } from "lucide-react";
+import { useState } from "react";
 
 const skillCategories = [
   {
-    id: "languages",
-    title: "Programming Languages",
-    icon: <Code2 className="w-5 h-5 text-primary" />,
-    filename: "languages.py",
-    skills: ["Python", "SQL", "C++", "R", "JavaScript"]
+    id: "scientific-ml",
+    title: "Neural Operators & Scientific ML",
+    icon: Network,
+    description: "Surrogate modeling for continuous PDEs and high-dimensional physical field simulations.",
+    skills: [
+      { name: "3D Fourier Neural Operators (FNO)", level: "Production", desc: "Voxel & mesh response mapping at Rolls Royce" },
+      { name: "Physics-Informed ML (PINNs)", level: "Advanced", desc: "Embedding theoretical likelihoods into loss" },
+      { name: "Residual Fourier Layers", level: "Advanced", desc: "Non-linear spectral convolutions & bypass" },
+      { name: "Surrogate Modeling", level: "Production", desc: "Sub-second structural & fluid estimations" },
+    ],
   },
   {
-    id: "ml",
-    title: "Machine Learning & AI",
-    icon: <Brain className="w-5 h-5 text-primary" />,
-    filename: "models.pt",
-    skills: ["Scikit-learn", "TensorFlow", "PyTorch", "HuggingFace", "Computer Vision", "NLP"]
+    id: "quantum-qml",
+    title: "Quantum Computing & Quantum ML",
+    icon: Cpu,
+    description: "Quantum circuit simulation, noise channel decoding, and hybrid classical-quantum models.",
+    skills: [
+      { name: "Qiskit Aer Noise Modeling", level: "Advanced", desc: "Stochastic Pauli noise & shot simulation" },
+      { name: "Quantum Error Detection", level: "Research", desc: "5-model soft voting on 4 noise channels" },
+      { name: "PennyLane Hybrid QNN", level: "Advanced", desc: "Parametric quantum neural circuits" },
+      { name: "Quantum Kernel SVM (QKSVM)", level: "Advanced", desc: "Hilbert space feature mappings" },
+    ],
   },
   {
-    id: "data",
-    title: "Data Science & Analysis",
-    icon: <BarChart3 className="w-5 h-5 text-primary" />,
-    filename: "analysis.ipynb",
-    skills: ["Pandas", "NumPy", "Statistics", "Time Series", "Optimization", "Matplotlib"]
+    id: "deep-learning",
+    title: "Core Deep Learning & Ensembles",
+    icon: Flame,
+    description: "Scalable machine learning pipelines, sequence architectures, and high-performance ensembles.",
+    skills: [
+      { name: "PyTorch & TensorFlow", level: "Expert", desc: "Custom layers, distributed training & GPU ops" },
+      { name: "XGBoost & Scikit-Learn", level: "Expert", desc: "Multi-class classification on 2.8M+ flows" },
+      { name: "LSTM Sequence Models", level: "Advanced", desc: "Bytecode instruction and exploit analysis" },
+      { name: "Apple Silicon Solvers", level: "Advanced", desc: "Optimizing training on ARM architecture" },
+    ],
   },
   {
-    id: "tools",
-    title: "Developer Tools & DevOps",
-    icon: <Wrench className="w-5 h-5 text-primary" />,
-    filename: "system.config",
-    skills: ["Git/GitHub", "Docker", "Linux", "AWS", "Jupyter", "VS Code"]
-  }
+    id: "xai-forensics",
+    title: "Explainable AI (XAI) & Forensics",
+    icon: Sparkles,
+    description: "Glass-box interpretability, feature attributions, and mathematical prediction transparency.",
+    skills: [
+      { name: "SHAP (Shapley Explanations)", level: "Expert", desc: "Global & local instance-level attribution" },
+      { name: "Physics Logic Breakdowns", level: "Advanced", desc: "Correlating neural outputs to physics laws" },
+      { name: "Stratified ROC & Precision-Recall", level: "Expert", desc: "Forensic-grade statistical validation" },
+      { name: "Glass-Box Threat Telemetry", level: "Production", desc: "JSONL asynchronous data lake pipelines" },
+    ],
+  },
+  {
+    id: "systems-languages",
+    title: "Systems, Languages & Databases",
+    icon: Binary,
+    description: "High-performance programming languages, backends, compilers, and databases.",
+    skills: [
+      { name: "Python, C, C++, Java, SQL, R", level: "Proficient", desc: "Versatile systems & analytical coding" },
+      { name: "FastAPI, Flask & React 19", level: "Full-Stack", desc: "Real-time SOC & ML forensic dashboards" },
+      { name: "Solidity (Solc) Disassembly", level: "Specialized", desc: "Smart contract opcode parsing" },
+      { name: "MySQL & MongoDB", level: "Proficient", desc: "Relational and document storage" },
+    ],
+  },
 ];
 
 export const SkillsSection = () => {
+  const [activeCategory, setActiveCategory] = useState("scientific-ml");
+  const selectedCat = skillCategories.find((c) => c.id === activeCategory) || skillCategories[0];
+
   return (
-    <section id="skills" className="py-24 px-4 relative overflow-hidden">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Technical <span className="text-primary glow-text-primary">Capabilities</span>
-          </h2>
-          <div className="flex items-center justify-center gap-2 font-mono text-sm text-muted-foreground">
-            <Terminal className="w-4 h-4" />
-            <span>ls ~/skills/core_competencies</span>
+    <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 relative grid-dots">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#24344d]">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
+              SECTION 04 // RESEARCH TOOLKIT & LABORATORY BENCH
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans">
+              Technical Disciplines & Core Craft
+            </h2>
           </div>
+          <p className="text-xs font-mono text-slate-400 max-w-sm">
+            Categorized toolkit spanning continuous physics surrogate models, quantum noise simulations, and forensic explainability.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {skillCategories.map((category) => (
-            <div
-              key={category.id}
-              className="terminal-window group card-hover flex flex-col h-full"
-            >
-              <div className="terminal-header flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="dot-red"></div>
-                  <div className="dot-yellow"></div>
-                  <div className="dot-green"></div>
-                  <span className="ml-2 text-xs text-muted-foreground font-mono">
-                    {category.filename}
-                  </span>
-                </div>
-                {category.icon}
-              </div>
-              
-              <div className="p-8">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                   {category.title}
-                </h3>
-                
-                <div className="flex flex-wrap gap-3">
-                  {category.skills.map((skill, idx) => (
-                    <div
-                      key={idx}
-                      className="px-4 py-2 rounded-lg bg-primary/5 border border-primary/10 hover:border-primary/40 hover:bg-primary/10 transition-all duration-300 group/skill"
-                    >
-                      <span className="text-sm font-mono text-foreground/80 group-hover/skill:text-primary transition-colors">
-                        {skill}
-                      </span>
-                      <div className="mt-1 h-0.5 w-0 group-hover/skill:w-full bg-primary transition-all duration-300" />
+        {/* Workbench Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Category Selector */}
+          <div className="lg:col-span-4 space-y-2.5">
+            <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">
+              // Select Research Domain
+            </div>
+
+            {skillCategories.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${
+                    isActive
+                      ? "bg-[#1d273a] border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.15)] text-amber-300"
+                      : "bg-[#121927] border-[#22334f] text-slate-300 hover:bg-[#182337] hover:text-white"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg ${isActive ? "bg-amber-500/20 text-amber-400" : "bg-[#1a2538] text-slate-400 group-hover:text-amber-400"}`}>
+                      <Icon size={18} />
                     </div>
-                  ))}
+                    <div>
+                      <div className="text-sm font-bold font-sans">{cat.title}</div>
+                      <div className="text-[11px] font-mono text-slate-400 mt-0.5">{cat.skills.length} Capabilities</div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+
+            {/* Pinned Note on Engineering Philosophy */}
+            <div className="sticky-note-slate rounded-xl p-4 mt-6">
+              <div className="text-xs font-mono text-amber-400 font-bold mb-1.5 flex items-center gap-2">
+                <Wrench size={13} /> CRAFT PHILOSOPHY
+              </div>
+              <p className="font-serif italic text-xs text-slate-300 leading-relaxed">
+                "Derive mathematical foundations first, optimize computational bottlenecks in PyTorch / C++, and never ship an AI model without transparent SHAP explainability."
+              </p>
+            </div>
+          </div>
+
+          {/* Right Detailed Capability Drawer */}
+          <div className="lg:col-span-8">
+            <div className="blueprint-card rounded-2xl p-6 sm:p-8">
+              <div className="flex items-center justify-between pb-4 border-b border-[#24344d] mb-6">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white font-sans flex items-center gap-2.5">
+                    {selectedCat.title}
+                  </h3>
+                  <p className="text-xs text-slate-300 font-sans mt-1">
+                    {selectedCat.description}
+                  </p>
                 </div>
+                <span className="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 text-xs font-mono border border-amber-500/20 hidden sm:inline">
+                  DOMAIN ACTIVE
+                </span>
               </div>
 
-              <div className="mt-auto px-8 pb-6 text-[10px] font-mono text-muted-foreground flex justify-between">
-                <span>PERMISSION: READ_EXECUTE</span>
-                <span>TYPE: SYSTEM_ASSET</span>
+              {/* Skills Card Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {selectedCat.skills.map((skill, sIdx) => (
+                  <div
+                    key={sIdx}
+                    className="p-4 rounded-xl bg-[#152033] border border-[#243754] hover:border-amber-500/40 transition-all flex flex-col justify-between group"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                          {skill.level}
+                        </span>
+                        <CheckCircle2 size={14} className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <h4 className="text-sm font-bold text-slate-100 font-sans group-hover:text-amber-300 transition-colors">
+                        {skill.name}
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-300 font-sans mt-2 pt-2 border-t border-[#1f304a] leading-relaxed">
+                      {skill.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Languages & Soft Skills Footer Strip */}
+              <div className="mt-8 pt-6 border-t border-[#24344d] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-slate-400">
+                <div>
+                  <span className="text-slate-300 font-bold">Languages Spoken:</span> English, Marathi, Hindi, German
+                </div>
+                <div>
+                  <span className="text-slate-300 font-bold">Leadership:</span> GDGoC Design & Content Lead
+                </div>
               </div>
             </div>
-          ))}
+          </div>
+
         </div>
+
       </div>
     </section>
   );
