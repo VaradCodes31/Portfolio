@@ -29,22 +29,23 @@ export const ExperienceSection = () => {
     {
       company: "Google Developer Groups on Campus (GDGoC)",
       role: "Design & Content Lead",
-      period: "Jun 2025 — Present",
+      period: "Feb 2024 — May 2026",
       location: "Pune, India",
       badge: "Leadership & Community",
       badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
       logoType: "gdgoc",
       description:
-        "Leading visual identity, design engineering, and technical storytelling for one of the premier student developer communities in Pune.",
+        "Promoted from Core Member (Feb 2024 — Jul 2025) to Head of the Design and Content Department (Jul 2025 — May 2026), spearheading visual identity, developer storytelling, and large-scale tech initiatives.",
       achievements: [
-        "Direct visual branding and technical communication campaigns, scaling developer engagement across university platforms.",
-        "Authored engaging developer tutorials, workshops, and architecture explainers on AI, web development, and cloud computing.",
-        "Key organizing team member and speaker coordinator for WOW Pune, a city-wide developer conference hosting hundreds of engineers.",
+        "Head of Design & Content (Jul 2025 — May 2026): Directed visual branding, technical communications, and digital outreach campaigns, expanding community visibility across developer platforms.",
+        "Core Member (Feb 2024 — Jul 2025): Created engaging technical content, curated workshops, and mentored junior student developers in AI and software engineering.",
+        "Authored and published developer-focused explainers on AI, web development, and cloud computing.",
+        "Volunteered and coordinated speaker management for WOW Pune, a premier city-wide developer conference hosting hundreds of engineers.",
       ],
-      technologies: ["Visual Branding", "Technical Writing", "Community Leadership", "UI/UX Design"],
+      technologies: ["Visual Branding", "Technical Communication", "Community Leadership", "UI/UX Design"],
       metrics: [
         { label: "Community Reach", value: "1,500+ Devs", icon: Users2 },
-        { label: "City Conferences", value: "WOW Pune", icon: Award },
+        { label: "Tenure", value: "2+ Years", icon: Award },
       ],
     },
   ];

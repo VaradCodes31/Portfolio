@@ -1,29 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { Cpu, Atom, ShieldAlert, RefreshCw, Eye, Sparkles } from "lucide-react";
+import { Cpu, Atom, ShieldAlert, RefreshCw, Eye, Sparkles, Play, CheckCircle2 } from "lucide-react";
 
 export const HeroCanvas3D = () => {
   const mountRef = useRef(null);
   const [activeMode, setActiveMode] = useState("neural"); // 'neural' | 'quantum' | 'cyber'
   const [wireframeOnly, setWireframeOnly] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
   const [telemetry, setTelemetry] = useState({
-    state: "Fourier Neural Operator (3D FNO)",
-    metric: "Loss: 0.0024 • R²: 0.9977",
-    status: "Simulation Nominal",
+    title: "Fourier Neural Operator (3D FNO)",
+    metric: "Loss: 0.0019 • R²: 0.9977 (4.75% L2)",
+    status: "Surrogate Continuous Inference Active",
+    color: "text-cyan-400",
   });
 
-  const sceneRef = useRef(null);
-  const objectsRef = useRef({});
+  const objectsRef = useRef({
+    masterGroup: null,
+    neuralGroup: null,
+    quantumGroup: null,
+    cyberGroup: null,
+    neuralMesh: null,
+    innerSphere: null,
+    blochSphere: null,
+    arrowStateVector: null,
+    cyberRing1: null,
+    cyberRing2: null,
+    particleCloud: null,
+    pulseSpeed: 1,
+  });
 
   useEffect(() => {
     const currentMount = mountRef.current;
     if (!currentMount) return;
 
     const scene = new THREE.Scene();
-    sceneRef.current = scene;
-
     const width = currentMount.clientWidth || 480;
-    const height = currentMount.clientHeight || 420;
+    const height = currentMount.clientHeight || 380;
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 7.5);
@@ -40,8 +52,9 @@ export const HeroCanvas3D = () => {
     const masterGroup = new THREE.Group();
     scene.add(masterGroup);
 
-    // --- Mode 1: Neural Operator Core ---
+    // --- Mode 1: Neural Operator Core (FNO) ---
     const neuralGroup = new THREE.Group();
+    neuralGroup.visible = true;
     masterGroup.add(neuralGroup);
 
     const neuralGeo = new THREE.IcosahedronGeometry(1.6, 2);
@@ -49,7 +62,7 @@ export const HeroCanvas3D = () => {
       color: 0x06b6d4,
       wireframe: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.55,
       roughness: 0.2,
       metalness: 0.8,
     });
@@ -59,67 +72,75 @@ export const HeroCanvas3D = () => {
     const innerSphereGeo = new THREE.SphereGeometry(0.85, 32, 32);
     const innerSphereMat = new THREE.MeshStandardMaterial({
       color: 0x8b5cf6,
-      emissive: 0x4c1d95,
-      emissiveIntensity: 0.8,
-      roughness: 0.3,
+      emissive: 0x5b21b6,
+      emissiveIntensity: 0.9,
+      roughness: 0.2,
       metalness: 0.8,
     });
     const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
     neuralGroup.add(innerSphere);
 
-    // --- Mode 2: Quantum Bloch Sphere ---
+    // Neural Latent Orbit Rings
+    const nRingGeo = new THREE.TorusGeometry(2.1, 0.02, 16, 80);
+    const nRingMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 });
+    const nRing = new THREE.Mesh(nRingGeo, nRingMat);
+    nRing.rotation.x = Math.PI / 3;
+    neuralGroup.add(nRing);
+
+    // --- Mode 2: Quantum Bloch Sphere (SyndromeAI) ---
     const quantumGroup = new THREE.Group();
     quantumGroup.visible = false;
     masterGroup.add(quantumGroup);
 
-    const blochSphereGeo = new THREE.SphereGeometry(1.7, 24, 24);
+    const blochSphereGeo = new THREE.SphereGeometry(1.65, 24, 24);
     const blochSphereMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.35,
     });
     const blochSphere = new THREE.Mesh(blochSphereGeo, blochSphereMat);
     quantumGroup.add(blochSphere);
 
-    // Quantum Axis Arrows (|0> at top, |1> at bottom, |psi> vector)
+    // |0> and |1> Axis Poles
     const arrowHelperZ = new THREE.ArrowHelper(
       new THREE.Vector3(0, 1, 0),
-      new THREE.Vector3(0, 0, 0),
-      2.2,
+      new THREE.Vector3(0, -1.8, 0),
+      3.6,
       0x10b981,
       0.3,
       0.15
     );
     quantumGroup.add(arrowHelperZ);
 
-    const stateVectorDir = new THREE.Vector3(1, 1, 0.8).normalize();
+    // Superposition State Vector |ψ⟩
+    const stateVectorDir = new THREE.Vector3(0.7, 0.7, 0.5).normalize();
     const arrowStateVector = new THREE.ArrowHelper(
       stateVectorDir,
       new THREE.Vector3(0, 0, 0),
       1.9,
       0xf59e0b,
-      0.35,
+      0.4,
       0.2
     );
     quantumGroup.add(arrowStateVector);
 
-    // Quantum Latitude Rings
-    const qRingGeo = new THREE.TorusGeometry(1.72, 0.02, 16, 80);
-    const qRingMat = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.6 });
+    // Quantum Equatorial Orbit Ring
+    const qRingGeo = new THREE.TorusGeometry(1.66, 0.025, 16, 80);
+    const qRingMat = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.7 });
     const qRing = new THREE.Mesh(qRingGeo, qRingMat);
     qRing.rotation.x = Math.PI / 2;
     quantumGroup.add(qRing);
 
-    // --- Mode 3: Cyber SOC Threat Ring ---
+    // --- Mode 3: Cyber Threat Intelligence Ring (NetSage IDS) ---
     const cyberGroup = new THREE.Group();
     cyberGroup.visible = false;
     masterGroup.add(cyberGroup);
 
-    const torusGeo1 = new THREE.TorusGeometry(1.8, 0.06, 16, 100);
+    const torusGeo1 = new THREE.TorusGeometry(1.75, 0.05, 16, 100);
     const torusMat1 = new THREE.MeshStandardMaterial({
       color: 0x10b981,
-      emissive: 0x064e3b,
+      emissive: 0x047857,
       emissiveIntensity: 0.9,
       roughness: 0.2,
     });
@@ -127,18 +148,28 @@ export const HeroCanvas3D = () => {
     cyberRing1.rotation.x = Math.PI / 3;
     cyberGroup.add(cyberRing1);
 
-    const torusGeo2 = new THREE.TorusGeometry(2.2, 0.03, 16, 100);
+    const torusGeo2 = new THREE.TorusGeometry(2.15, 0.035, 16, 100);
     const torusMat2 = new THREE.MeshBasicMaterial({
       color: 0x06b6d4,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.7,
     });
     const cyberRing2 = new THREE.Mesh(torusGeo2, torusMat2);
     cyberRing2.rotation.y = Math.PI / 4;
     cyberGroup.add(cyberRing2);
 
+    const cyberCoreGeo = new THREE.OctahedronGeometry(1.1, 0);
+    const cyberCoreMat = new THREE.MeshStandardMaterial({
+      color: 0x06b6d4,
+      emissive: 0x0e7490,
+      wireframe: true,
+      metalness: 0.9,
+    });
+    const cyberCore = new THREE.Mesh(cyberCoreGeo, cyberCoreMat);
+    cyberGroup.add(cyberCore);
+
     // Surrounding Particle Constellation
-    const particleCount = 100;
+    const particleCount = 120;
     const posArray = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
       const r = 2.4 + Math.random() * 1.6;
@@ -151,16 +182,17 @@ export const HeroCanvas3D = () => {
     const particleGeo = new THREE.BufferGeometry();
     particleGeo.setAttribute("position", new THREE.BufferAttribute(posArray, 3));
     const particleMat = new THREE.PointsMaterial({
-      size: 0.045,
+      size: 0.05,
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
     });
     const particleCloud = new THREE.Points(particleGeo, particleMat);
     masterGroup.add(particleCloud);
 
-    // Save refs for mode switching
+    // Save refs for simulation triggers
     objectsRef.current = {
+      masterGroup,
       neuralGroup,
       quantumGroup,
       cyberGroup,
@@ -168,8 +200,11 @@ export const HeroCanvas3D = () => {
       innerSphere,
       blochSphere,
       arrowStateVector,
+      cyberRing1,
+      cyberRing2,
+      cyberCore,
       particleCloud,
-      masterGroup,
+      pulseSpeed: 1,
     };
 
     // Lights
@@ -216,19 +251,23 @@ export const HeroCanvas3D = () => {
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
+      const time = clock.getElapsedTime() * objectsRef.current.pulseSpeed;
 
-      // Damping
+      // Mouse Inertia Damping
       masterGroup.rotation.y += (targetRotY - masterGroup.rotation.y) * 0.05;
       masterGroup.rotation.x += (targetRotX - masterGroup.rotation.x) * 0.05;
       masterGroup.position.y = Math.sin(time * 1.5) * 0.1;
 
-      // Rotate sub components
+      // Mode-specific rotations
       neuralMesh.rotation.x = time * 0.2;
       neuralMesh.rotation.y = time * 0.25;
+
       blochSphere.rotation.y = time * 0.15;
+
       cyberRing1.rotation.z = time * 0.35;
       cyberRing2.rotation.x = time * 0.25;
+      cyberCore.rotation.y = time * 0.4;
+
       particleCloud.rotation.y = -time * 0.08;
 
       renderer.render(scene, camera);
@@ -250,7 +289,7 @@ export const HeroCanvas3D = () => {
   // Handle Mode Switch
   const switchMode = (mode) => {
     setActiveMode(mode);
-    const { neuralGroup, quantumGroup, cyberGroup, arrowStateVector } = objectsRef.current;
+    const { neuralGroup, quantumGroup, cyberGroup } = objectsRef.current;
     if (!neuralGroup) return;
 
     if (mode === "neural") {
@@ -258,71 +297,108 @@ export const HeroCanvas3D = () => {
       quantumGroup.visible = false;
       cyberGroup.visible = false;
       setTelemetry({
-        state: "Fourier Neural Operator (3D FNO)",
-        metric: "Resolution: 64³ Voxel • R²: 0.9977",
-        status: "Continuous Surrogate Inference Active",
+        title: "Fourier Neural Operator (3D FNO)",
+        metric: "Loss: 0.0019 • R²: 0.9977 (4.75% L2)",
+        status: "Surrogate Continuous Inference Active",
+        color: "text-cyan-400",
       });
     } else if (mode === "quantum") {
       neuralGroup.visible = false;
       quantumGroup.visible = true;
       cyberGroup.visible = false;
-      // Mutate quantum vector
-      const phi = Math.random() * Math.PI * 2;
-      const theta = Math.random() * Math.PI;
-      const dir = new THREE.Vector3(
-        Math.sin(theta) * Math.cos(phi),
-        Math.cos(theta),
-        Math.sin(theta) * Math.sin(phi)
-      ).normalize();
-      arrowStateVector.setDirection(dir);
       setTelemetry({
-        state: "Qubit Bloch Sphere |ψ⟩",
-        metric: "State: α|0⟩ + β|1⟩ • 1024 Shots Sim",
-        status: "Qiskit Noise Channel: Depolarizing (0.02)",
+        title: "Qubit Bloch Sphere |ψ⟩",
+        metric: "Superposition: 0.707|0⟩ + 0.707|1⟩",
+        status: "Qiskit Noise Simulation Engine Active",
+        color: "text-violet-400",
       });
     } else if (mode === "cyber") {
       neuralGroup.visible = false;
       quantumGroup.visible = false;
       cyberGroup.visible = true;
       setTelemetry({
-        state: "NetSage Telemetry Stream",
+        title: "NetSage Threat Stream (IDS)",
         metric: "XGBoost Engine • 99.88% Accuracy",
-        status: "2.8M+ Flow Stream Protected",
+        status: "2.8M+ Flow Anomaly Detection Active",
+        color: "text-emerald-400",
       });
     }
   };
 
-  // Pulse / Perturb Simulation
+  // Robust Simulation Pulse for All 3 Modes
   const triggerSimulationPulse = () => {
-    const { neuralMesh, innerSphere, arrowStateVector } = objectsRef.current;
-    if (activeMode === "quantum" && arrowStateVector) {
-      const dir = new THREE.Vector3(
-        (Math.random() - 0.5) * 2,
-        (Math.random() - 0.5) * 2,
-        (Math.random() - 0.5) * 2
-      ).normalize();
-      arrowStateVector.setDirection(dir);
-      setTelemetry((prev) => ({
-        ...prev,
-        metric: `Quantum Phase Shift Applied • θ=${(Math.random() * Math.PI).toFixed(2)} rad`,
-      }));
-    } else if (innerSphere) {
-      innerSphere.scale.set(1.4, 1.4, 1.4);
-      setTimeout(() => innerSphere.scale.set(1, 1, 1), 300);
-      setTelemetry((prev) => ({
-        ...prev,
-        status: "Inference Forward Pass Executed (< 0.85s)",
-      }));
+    setIsSimulating(true);
+    const { innerSphere, neuralMesh, arrowStateVector, cyberRing1, cyberRing2, particleCloud } = objectsRef.current;
+
+    // Temporary speed boost
+    objectsRef.current.pulseSpeed = 3.0;
+
+    if (activeMode === "neural") {
+      // Neural FNO Forward Pass Simulation
+      if (innerSphere) {
+        innerSphere.scale.set(1.5, 1.5, 1.5);
+      }
+      setTelemetry({
+        title: "Forward Pass Computed (3D FNO)",
+        metric: "Continuous Voxel Stress Field Evaluated in 0.042s",
+        status: "R²: 0.9977 • Error: 4.75% • Status: CONVERGED",
+        color: "text-cyan-400",
+      });
+    } else if (activeMode === "quantum") {
+      // Quantum Noise & State Collapse Simulation
+      if (arrowStateVector) {
+        const theta = Math.random() * Math.PI;
+        const phi = Math.random() * Math.PI * 2;
+        const dir = new THREE.Vector3(
+          Math.sin(theta) * Math.cos(phi),
+          Math.cos(theta),
+          Math.sin(theta) * Math.sin(phi)
+        ).normalize();
+        arrowStateVector.setDirection(dir);
+      }
+      const noiseTypes = ["Bit Flip (X)", "Phase Flip (Z)", "Depolarizing (0.02)", "Readout Error"];
+      const selectedNoise = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+      setTelemetry({
+        title: "1024 Shot Stochastic Run",
+        metric: `Simulated Noise: ${selectedNoise} Channel`,
+        status: "SyndromeAI XAI Logic Breakdown Completed",
+        color: "text-violet-400",
+      });
+    } else if (activeMode === "cyber") {
+      // IDS Threat Mitigation Scan
+      if (cyberRing1 && cyberRing2) {
+        cyberRing1.scale.set(1.3, 1.3, 1.3);
+        cyberRing2.scale.set(1.3, 1.3, 1.3);
+      }
+      const attacks = ["PortScan", "DDoS-LOIC", "Brute Force SSH", "Botnet Infiltration", "SQL Injection"];
+      const attack = attacks[Math.floor(Math.random() * attacks.length)];
+      setTelemetry({
+        title: "Intrusion Flow Intercepted",
+        metric: `Signature: ${attack} (Confidence: 99.94%)`,
+        status: "Threat Class Mitigated by NetSage XGBoost Engine",
+        color: "text-emerald-400",
+      });
     }
+
+    setTimeout(() => {
+      if (innerSphere) innerSphere.scale.set(1, 1, 1);
+      if (cyberRing1 && cyberRing2) {
+        cyberRing1.scale.set(1, 1, 1);
+        cyberRing2.scale.set(1, 1, 1);
+      }
+      objectsRef.current.pulseSpeed = 1.0;
+      setIsSimulating(false);
+    }, 600);
   };
 
   // Toggle wireframe mode
   const toggleWireframe = () => {
-    const { neuralMesh, innerSphere } = objectsRef.current;
+    const { neuralMesh, innerSphere, cyberCore } = objectsRef.current;
     const nextState = !wireframeOnly;
     setWireframeOnly(nextState);
     if (neuralMesh) neuralMesh.material.wireframe = true;
     if (innerSphere) innerSphere.material.wireframe = nextState;
+    if (cyberCore) cyberCore.material.wireframe = nextState;
   };
 
   return (
@@ -330,10 +406,10 @@ export const HeroCanvas3D = () => {
       {/* 3D Canvas Viewport */}
       <div
         ref={mountRef}
-        className="w-full h-[300px] sm:h-[350px] flex items-center justify-center relative cursor-grab active:cursor-grabbing select-none"
+        className="w-full h-[280px] sm:h-[320px] flex items-center justify-center relative cursor-grab active:cursor-grabbing select-none"
       />
 
-      {/* Interactive Functional Controls Bar */}
+      {/* Interactive Controls & Telemetry HUD */}
       <div className="w-full mt-2 pt-3 border-t border-slate-800/80 flex flex-col gap-2.5">
         {/* Mode Selector Tabs */}
         <div className="flex items-center justify-between gap-1 p-1 bg-slate-950/80 rounded-xl border border-slate-800 text-xs font-mono">
@@ -369,34 +445,44 @@ export const HeroCanvas3D = () => {
           </button>
         </div>
 
-        {/* Live Functional Telemetry Box & Action Triggers */}
-        <div className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px] font-mono text-slate-300">
-          <div className="flex flex-col truncate">
-            <span className="text-cyan-400 font-bold truncate flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {telemetry.state}
+        {/* Live Functional Telemetry Box & Simulation Actions */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-slate-300">
+          <div className="flex flex-col truncate pr-2">
+            <span className={`${telemetry.color} font-bold truncate flex items-center gap-1.5`}>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              {telemetry.title}
             </span>
-            <span className="text-slate-400 text-[10px] truncate">{telemetry.metric}</span>
+            <span className="text-slate-300 text-[10.5px] truncate font-medium mt-0.5">
+              {telemetry.metric}
+            </span>
+            <span className="text-slate-500 text-[9.5px] truncate mt-0.5">
+              {telemetry.status}
+            </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
             <button
               onClick={triggerSimulationPulse}
-              title="Execute Simulation Step"
-              className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 hover:border-cyan-500/50 flex items-center gap-1 transition-colors"
+              disabled={isSimulating}
+              className={`px-3 py-1.5 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md ${
+                isSimulating
+                  ? "bg-cyan-500/50 text-slate-950 cursor-wait"
+                  : "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 hover:scale-105 shadow-cyan-500/20"
+              }`}
             >
-              <RefreshCw size={11} /> Simulate
+              <RefreshCw size={12} className={isSimulating ? "animate-spin" : ""} />
+              {isSimulating ? "Computing..." : "Run Simulation"}
             </button>
             <button
               onClick={toggleWireframe}
-              title="Toggle Mesh Wireframe"
-              className={`p-1.5 rounded-md border transition-colors ${
+              title="Toggle Wireframe"
+              className={`p-1.5 rounded-lg border transition-colors ${
                 wireframeOnly
                   ? "bg-cyan-500/20 border-cyan-500 text-cyan-300"
                   : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
               }`}
             >
-              <Eye size={12} />
+              <Eye size={13} />
             </button>
           </div>
         </div>

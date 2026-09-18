@@ -19,9 +19,6 @@ export const ProjectSection = () => {
       category: "Quantum ML",
       date: "Feb 2026 — Apr 2026",
       featured: true,
-      colSpan: "lg:col-span-8",
-      metricGridClass: "grid-cols-2 sm:grid-cols-4",
-      gradient: "from-cyan-500/20 via-violet-500/10 to-transparent",
       borderColor: "hover:border-cyan-400/50",
       description:
         "Architected an explainable AI system classifying 4 quantum noise channels (Bit Flip, Phase Flip, Readout, Depolarizing noise) using physics-informed likelihood ratios to resolve gate/measurement error overlaps.",
@@ -48,9 +45,6 @@ export const ProjectSection = () => {
       category: "Cybersecurity",
       date: "Feb 2026 — Mar 2026",
       featured: true,
-      colSpan: "lg:col-span-4",
-      metricGridClass: "grid-cols-2",
-      gradient: "from-violet-500/20 via-indigo-500/10 to-transparent",
       borderColor: "hover:border-violet-400/50",
       description:
         "High-performance intrusion detection system evaluated on 2.8M+ CICIDS2017 flows achieving 99.88% detection accuracy across 15 attack classes with hybrid QNN research.",
@@ -77,9 +71,6 @@ export const ProjectSection = () => {
       category: "Blockchain",
       date: "Jan 2026 — Mar 2026",
       featured: false,
-      colSpan: "lg:col-span-6",
-      metricGridClass: "grid-cols-2 sm:grid-cols-4",
-      gradient: "from-emerald-500/20 via-cyan-500/10 to-transparent",
       borderColor: "hover:border-emerald-400/50",
       description:
         "Hybrid deep sequence and heuristic machine learning engine increasing smart contract vulnerability detection from 83% to 97.2% with 0.85s sub-second P95 response time.",
@@ -106,9 +97,6 @@ export const ProjectSection = () => {
       category: "Deep Learning",
       date: "Jul 2026 — Present",
       featured: false,
-      colSpan: "lg:col-span-6",
-      metricGridClass: "grid-cols-2 sm:grid-cols-4",
-      gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
       borderColor: "hover:border-amber-400/50",
       description:
         "Industrial surrogate model developed at Rolls Royce Power Systems achieving 99.77% R² on unseen simulations for voxel-wise stress and structural deformation prediction.",
@@ -152,15 +140,15 @@ export const ProjectSection = () => {
         </div>
 
         {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900/80 rounded-full border border-slate-800 backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-mono transition-all ${
                 activeCategory === cat
-                  ? "bg-cyan-500 text-slate-950 font-semibold shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/25 scale-105"
+                  : "bg-slate-900/80 hover:bg-slate-800/90 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 backdrop-blur-sm"
               }`}
             >
               {cat}
@@ -169,8 +157,8 @@ export const ProjectSection = () => {
         </div>
       </div>
 
-      {/* Watermelon-UI Bento Grid */}
-      <motion.div layout className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Balanced 2-Column Grid */}
+      <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <AnimatePresence>
           {filteredProjects.map((project) => (
             <motion.div
@@ -180,11 +168,11 @@ export const ProjectSection = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.35 }}
-              className={`col-span-1 ${project.colSpan}`}
+              className="w-full"
             >
               <TiltCard className="h-full">
                 <SpotlightCard
-                  className={`h-full flex flex-col justify-between border-slate-800 ${project.borderColor} p-6`}
+                  className={`h-full flex flex-col justify-between border-slate-800 ${project.borderColor} p-6 sm:p-7`}
                   spotlightColor="rgba(6, 182, 212, 0.15)"
                 >
                   <div>
@@ -199,24 +187,24 @@ export const ProjectSection = () => {
                     </div>
 
                     {/* Title & Subtitle */}
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2.5 group-hover:text-cyan-300 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-5">
+                    <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6">
                       {project.description}
                     </p>
 
-                    {/* Live Metric Pills with Proper Grid Allocation */}
-                    <div className={`grid ${project.metricGridClass || "grid-cols-2 sm:grid-cols-4"} gap-2.5 mb-6`}>
+                    {/* Live Metric Pills */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6">
                       {project.metrics.map((m, mIdx) => (
                         <div
                           key={mIdx}
-                          className="p-2.5 rounded-lg bg-slate-950/70 border border-slate-800/80 flex flex-col justify-center"
+                          className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex flex-col justify-center"
                         >
                           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight truncate">
                             {m.label}
                           </span>
-                          <span className="text-xs sm:text-sm font-bold font-mono text-cyan-400 mt-0.5 truncate">
+                          <span className="text-xs sm:text-sm font-bold font-mono text-cyan-400 mt-1 truncate">
                             {m.value}
                           </span>
                         </div>

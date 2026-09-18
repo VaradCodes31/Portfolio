@@ -4,12 +4,21 @@ import { SpotlightCard } from "./ui/SpotlightCard";
 
 export const AboutSection = () => {
   const courses = [
-    "Data Structures & Algorithms",
-    "Machine Learning & Deep Learning",
-    "Linear Algebra & Differential Calculus",
-    "Operating Systems & DBMS",
+    "Linear Algebra and Differential Calculus",
+    "Discrete Mathematics and Graph Theory",
+    "Differential Equations and Transform Techniques",
+    "Data Structures and Algorithms",
+    "Microprocessor and Microcontroller Architecture",
+    "Object-Oriented Programming",
     "Computer Networks",
-    "BigData Technologies",
+    "Probability and Statistics",
+    "Database Management Systems",
+    "Operating Systems",
+    "Big Data Technologies",
+    "Software Engineering and Modelling",
+    "Machine Learning",
+    "Deep Learning",
+    "Theory of Computation",
   ];
 
   const softSkills = [
@@ -60,10 +69,10 @@ export const AboutSection = () => {
               </p>
               <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
                 <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300">
-                  Jun 2020 — Jun 2023
+                  Aug 2023 — Jul 2027
                 </span>
                 <span className="px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold">
-                  CGPA: 8.72 / 10.0
+                  CGPA: 8.74 / 10.0
                 </span>
               </div>
             </div>
@@ -94,16 +103,20 @@ export const AboutSection = () => {
               </div>
               <div>
                 <span className="text-xs font-mono text-violet-400 font-semibold uppercase">
-                  Community Impact
+                  Community Leadership
                 </span>
                 <h3 className="text-base font-bold text-white">
                   Google Developer Groups (GDGoC)
                 </h3>
               </div>
             </div>
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Serving as Design and Content Lead, driving community education, technical blogs, and large scale conferences like WOW Pune.
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-2">
+              Served as <strong className="text-cyan-300 font-semibold">Core Member</strong> (Feb 2024 — Jul 2025) and subsequently promoted to <strong className="text-violet-300 font-semibold">Head of Design & Content</strong> (Jul 2025 — May 2026), driving visual identity and conferences like WOW Pune.
             </p>
+            <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+              <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Feb 2024 — May 2026</span>
+              <span className="text-cyan-400">• 2+ Years Leadership</span>
+            </div>
           </SpotlightCard>
 
           <SpotlightCard className="flex-1 border-slate-800" spotlightColor="rgba(16, 185, 129, 0.12)">

@@ -7,14 +7,14 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          {/* Fullscreen Backdrop (Overlays entire page including navbar) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-black/85 backdrop-blur-xl z-[101]"
           />
 
           {/* Modal Container */}
@@ -23,19 +23,20 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-slate-900 border border-slate-700/80 p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 z-10 text-slate-200"
+            className="relative w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-2xl bg-slate-900 border border-slate-700/80 p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 z-[102] text-slate-200 mt-4 sm:mt-0"
           >
-            {/* Close Button */}
+            {/* Prominent Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all shadow-md z-20"
+              aria-label="Close Case Study"
             >
               <X size={20} />
             </button>
 
-            {/* Header */}
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            {/* Header Tags */}
+            <div className="flex flex-wrap items-center gap-2 mb-3 pr-10">
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
                 {project.category}
               </span>
               <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20">
@@ -43,24 +44,24 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 pr-8">
               {project.title}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base mb-6">
               {project.subtitle}
             </p>
 
-            {/* Key Metrics Grid */}
+            {/* Key Metrics Grid - Sized Cleanly */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {project.metrics?.map((m, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/50 flex flex-col"
+                  className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-center"
                 >
-                  <span className="text-xs font-mono text-slate-400 uppercase">
+                  <span className="text-[10.5px] font-mono text-slate-400 uppercase truncate">
                     {m.label}
                   </span>
-                  <span className="text-lg sm:text-xl font-bold font-mono text-cyan-400 mt-1">
+                  <span className="text-sm sm:text-base font-bold font-mono text-cyan-400 mt-1 truncate">
                     {m.value}
                   </span>
                 </div>
@@ -87,7 +88,7 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
 
             {/* Technologies Used */}
             <div className="mb-8">
-              <h3 className="text-sm font-semibold text-slate-400 font-mono uppercase mb-3">
+              <h3 className="text-xs font-semibold text-slate-400 font-mono uppercase mb-3">
                 Technologies & Tools Used
               </h3>
               <div className="flex flex-wrap gap-2">

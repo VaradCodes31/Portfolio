@@ -30,7 +30,7 @@ export const HeroSection = () => {
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
             <span className="hidden sm:inline text-slate-400 font-mono">
-              MIT-WPU (CGPA: 8.72)
+              MIT-WPU (CGPA: 8.74)
             </span>
           </div>
         </motion.div>
