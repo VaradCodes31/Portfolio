@@ -20,6 +20,7 @@ export const ProjectSection = () => {
       date: "Feb 2026 — Apr 2026",
       featured: true,
       colSpan: "lg:col-span-8",
+      metricGridClass: "grid-cols-2 sm:grid-cols-4",
       gradient: "from-cyan-500/20 via-violet-500/10 to-transparent",
       borderColor: "hover:border-cyan-400/50",
       description:
@@ -48,6 +49,7 @@ export const ProjectSection = () => {
       date: "Feb 2026 — Mar 2026",
       featured: true,
       colSpan: "lg:col-span-4",
+      metricGridClass: "grid-cols-2",
       gradient: "from-violet-500/20 via-indigo-500/10 to-transparent",
       borderColor: "hover:border-violet-400/50",
       description:
@@ -76,6 +78,7 @@ export const ProjectSection = () => {
       date: "Jan 2026 — Mar 2026",
       featured: false,
       colSpan: "lg:col-span-6",
+      metricGridClass: "grid-cols-2 sm:grid-cols-4",
       gradient: "from-emerald-500/20 via-cyan-500/10 to-transparent",
       borderColor: "hover:border-emerald-400/50",
       description:
@@ -104,6 +107,7 @@ export const ProjectSection = () => {
       date: "Jul 2026 — Present",
       featured: false,
       colSpan: "lg:col-span-6",
+      metricGridClass: "grid-cols-2 sm:grid-cols-4",
       gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
       borderColor: "hover:border-amber-400/50",
       description:
@@ -180,7 +184,7 @@ export const ProjectSection = () => {
             >
               <TiltCard className="h-full">
                 <SpotlightCard
-                  className={`h-full flex flex-col justify-between border-slate-800 ${project.borderColor}`}
+                  className={`h-full flex flex-col justify-between border-slate-800 ${project.borderColor} p-6`}
                   spotlightColor="rgba(6, 182, 212, 0.15)"
                 >
                   <div>
@@ -202,17 +206,17 @@ export const ProjectSection = () => {
                       {project.description}
                     </p>
 
-                    {/* Live Metric Pills */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+                    {/* Live Metric Pills with Proper Grid Allocation */}
+                    <div className={`grid ${project.metricGridClass || "grid-cols-2 sm:grid-cols-4"} gap-2.5 mb-6`}>
                       {project.metrics.map((m, mIdx) => (
                         <div
                           key={mIdx}
-                          className="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 flex flex-col"
+                          className="p-2.5 rounded-lg bg-slate-950/70 border border-slate-800/80 flex flex-col justify-center"
                         >
-                          <span className="text-[10px] font-mono text-slate-400 uppercase">
+                          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight truncate">
                             {m.label}
                           </span>
-                          <span className="text-sm sm:text-base font-bold font-mono text-cyan-400 mt-0.5">
+                          <span className="text-xs sm:text-sm font-bold font-mono text-cyan-400 mt-0.5 truncate">
                             {m.value}
                           </span>
                         </div>

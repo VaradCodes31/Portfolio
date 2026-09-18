@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Briefcase, Calendar, MapPin, CheckCircle2, ChevronRight, Cpu, Sparkles, Award } from "lucide-react";
+import { Briefcase, Calendar, MapPin, CheckCircle2, Award, Sparkles, Building2, Users2, TrendingUp, ShieldCheck } from "lucide-react";
 import { SpotlightCard } from "./ui/SpotlightCard";
 
 export const ExperienceSection = () => {
@@ -9,8 +9,9 @@ export const ExperienceSection = () => {
       role: "Computational Methodology Intern",
       period: "Jul 2026 — Present",
       location: "Pune, Maharashtra (On-site)",
-      badge: "Current Role",
+      badge: "Industrial Research",
       badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
+      logoType: "rolls-royce",
       description:
         "Architecting deep learning surrogate models and neural operators to replace traditional computationally heavy finite element methods (FEM) for fast 3D continuous structural mechanics.",
       achievements: [
@@ -20,7 +21,10 @@ export const ExperienceSection = () => {
         "Pioneering a geometry-agnostic FNO framework to accurately predict stress and deformation fields across varying voxel and node-based geometries without retraining from scratch.",
       ],
       technologies: ["Python", "PyTorch", "Fourier Neural Operators", "Deep Learning", "NumPy", "SciPy"],
-      metric: { label: "Model Fidelity", value: "99.77% R²" },
+      metrics: [
+        { label: "Model Fidelity", value: "99.77% R²", icon: TrendingUp },
+        { label: "Relative L2 Error", value: "4.75%", icon: ShieldCheck },
+      ],
     },
     {
       company: "Google Developer Groups on Campus (GDGoC)",
@@ -29,6 +33,7 @@ export const ExperienceSection = () => {
       location: "Pune, India",
       badge: "Leadership & Community",
       badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
+      logoType: "gdgoc",
       description:
         "Leading visual identity, design engineering, and technical storytelling for one of the premier student developer communities in Pune.",
       achievements: [
@@ -37,7 +42,10 @@ export const ExperienceSection = () => {
         "Key organizing team member and speaker coordinator for WOW Pune, a city-wide developer conference hosting hundreds of engineers.",
       ],
       technologies: ["Visual Branding", "Technical Writing", "Community Leadership", "UI/UX Design"],
-      metric: { label: "Reach", value: "1,500+ Devs" },
+      metrics: [
+        { label: "Community Reach", value: "1,500+ Devs", icon: Users2 },
+        { label: "City Conferences", value: "WOW Pune", icon: Award },
+      ],
     },
   ];
 
@@ -56,78 +64,108 @@ export const ExperienceSection = () => {
         </p>
       </div>
 
-      {/* Experience Timeline Grid */}
+      {/* Experience Cards */}
       <div className="space-y-8">
         {experiences.map((exp, idx) => (
           <SpotlightCard
             key={idx}
-            className="border border-white/10 hover:border-cyan-500/40"
+            className="border border-white/10 hover:border-cyan-500/40 p-6 sm:p-8"
             spotlightColor="rgba(6, 182, 212, 0.12)"
           >
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-              {/* Left Details */}
-              <div className="flex-1 space-y-4">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-mono font-medium border ${exp.badgeColor}`}>
-                    {exp.badge}
-                  </span>
-                  <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
-                    <Calendar size={13} className="text-cyan-400" /> {exp.period}
-                  </span>
-                  <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
-                    <MapPin size={13} className="text-slate-500" /> {exp.location}
-                  </span>
+            <div className="flex flex-col space-y-6">
+              {/* Card Header with Emblems & Metadata */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+                <div className="flex items-center gap-4">
+                  {/* Organization Custom Emblem */}
+                  {exp.logoType === "rolls-royce" ? (
+                    <div className="w-12 h-12 rounded-xl bg-slate-950 border border-slate-700 flex items-center justify-center font-serif font-bold text-cyan-400 text-xl shadow-lg shadow-cyan-500/10 shrink-0">
+                      RR
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-xl bg-slate-950 border border-slate-700 flex items-center justify-center shrink-0 shadow-lg">
+                      <div className="grid grid-cols-2 gap-1 w-6 h-6">
+                        <span className="rounded-full bg-red-500" />
+                        <span className="rounded-full bg-blue-500" />
+                        <span className="rounded-full bg-amber-500" />
+                        <span className="rounded-full bg-emerald-500" />
+                      </div>
+                    </div>
+                  )}
+
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium border ${exp.badgeColor}`}>
+                        {exp.badge}
+                      </span>
+                      <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
+                        <Calendar size={12} className="text-cyan-400" /> {exp.period}
+                      </span>
+                      <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
+                        <MapPin size={12} className="text-slate-500" /> {exp.location}
+                      </span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">
+                      {exp.role}
+                    </h3>
+                    <p className="text-cyan-400 font-medium text-sm font-mono mt-0.5">
+                      @ {exp.company}
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                    {exp.role}
-                  </h3>
-                  <p className="text-cyan-400 font-medium text-base mt-0.5 font-mono">
-                    @ {exp.company}
-                  </p>
+                {/* Horizontal Key Impact KPIs */}
+                <div className="flex items-center gap-3">
+                  {exp.metrics.map((m, mIdx) => {
+                    const Icon = m.icon;
+                    return (
+                      <div
+                        key={mIdx}
+                        className="px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5 min-w-[130px]"
+                      >
+                        <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
+                          <Icon size={15} />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-slate-400 uppercase leading-none">
+                            {m.label}
+                          </span>
+                          <span className="text-sm font-bold font-mono text-white mt-1 leading-none">
+                            {m.value}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
+              </div>
 
+              {/* Description & Accomplishments */}
+              <div className="space-y-3">
                 <p className="text-slate-300 text-sm leading-relaxed">
                   {exp.description}
                 </p>
 
-                {/* Bullet Points */}
-                <div className="space-y-2.5 pt-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                   {exp.achievements.map((item, aIdx) => (
-                    <div key={aIdx} className="flex items-start gap-2.5 text-sm text-slate-300">
-                      <CheckCircle2 size={16} className="text-cyan-400 mt-0.5 shrink-0" />
+                    <div key={aIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 p-2.5 rounded-xl bg-slate-950/40 border border-slate-800/60">
+                      <CheckCircle2 size={15} className="text-cyan-400 mt-0.5 shrink-0" />
                       <span>{item}</span>
                     </div>
                   ))}
                 </div>
-
-                {/* Tech Chips */}
-                <div className="flex flex-wrap gap-2 pt-3">
-                  {exp.technologies.map((t, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800/80 border border-slate-700/60 text-slate-300"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
               </div>
 
-              {/* Right Metric Callout */}
-              <div className="lg:w-48 shrink-0 flex lg:flex-col justify-between items-center lg:items-end p-4 rounded-xl bg-slate-950/60 border border-slate-800 self-stretch justify-center">
-                <div className="text-center lg:text-right">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase block">
-                    {exp.metric.label}
+              {/* Technologies Applied */}
+              <div className="pt-2 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-mono text-slate-400 mr-2">Skills / Tech Applied:</span>
+                {exp.technologies.map((t, tIdx) => (
+                  <span
+                    key={tIdx}
+                    className="px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800/80 border border-slate-700/60 text-slate-300"
+                  >
+                    {t}
                   </span>
-                  <span className="text-2xl sm:text-3xl font-bold font-mono text-cyan-400">
-                    {exp.metric.value}
-                  </span>
-                </div>
-                <div className="mt-2 text-xs font-mono text-emerald-400 flex items-center gap-1">
-                  <Sparkles size={12} /> High Impact
-                </div>
+                ))}
               </div>
             </div>
           </SpotlightCard>

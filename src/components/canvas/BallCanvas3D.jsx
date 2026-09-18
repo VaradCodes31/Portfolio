@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
+export const BallCanvas3D = ({ iconName, name, color = "#06b6d4", isSelected = false, onSelect }) => {
   const mountRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const dragDistanceRef = useRef(0);
 
   useEffect(() => {
     const currentMount = mountRef.current;
@@ -31,19 +33,19 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
     const ctx = canvas.getContext("2d");
 
     // Draw stylized tech face on canvas
-    ctx.fillStyle = "#111827";
+    ctx.fillStyle = isSelected ? "#0f172a" : "#111827";
     ctx.fillRect(0, 0, 256, 256);
 
     // Glowing circle accent
     ctx.strokeStyle = color;
-    ctx.lineWidth = 10;
+    ctx.lineWidth = isSelected ? 14 : 10;
     ctx.beginPath();
     ctx.arc(128, 128, 100, 0, Math.PI * 2);
     ctx.stroke();
 
     // Text Label
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 32px 'Plus Jakarta Sans', sans-serif";
+    ctx.font = "bold 34px 'Plus Jakarta Sans', sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(iconName || name, 128, 128);
@@ -51,10 +53,10 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
     const texture = new THREE.CanvasTexture(canvas);
     texture.needsUpdate = true;
 
-    // Create Icosahedron Mesh (Adrian Hajdin 3D Ball style)
+    // Create Icosahedron Mesh
     const geometry = new THREE.IcosahedronGeometry(1.35, 1);
     const material = new THREE.MeshStandardMaterial({
-      color: 0x1f293d,
+      color: isSelected ? 0x243048 : 0x1f293d,
       map: texture,
       roughness: 0.35,
       metalness: 0.65,
@@ -69,37 +71,38 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
       color: new THREE.Color(color),
       wireframe: true,
       transparent: true,
-      opacity: 0.4,
+      opacity: isSelected ? 0.8 : 0.4,
     });
     const wireframe = new THREE.Mesh(wireframeGeo, wireframeMat);
     scene.add(wireframe);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, isSelected ? 1.8 : 1.4);
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.0);
     dirLight1.position.set(5, 5, 5);
     scene.add(dirLight1);
 
-    const pointLight = new THREE.PointLight(new THREE.Color(color), 2.5, 10);
+    const pointLight = new THREE.PointLight(new THREE.Color(color), isSelected ? 3.5 : 2.5, 10);
     pointLight.position.set(-3, -3, 2);
     scene.add(pointLight);
 
-    // Drag / Hover Interaction
-    let isDragging = false;
+    // Drag / Hover / Click Interaction
     let prevMousePos = { x: 0, y: 0 };
     let velocity = { x: 0.006, y: 0.008 };
 
     const onMouseDown = (e) => {
-      isDragging = true;
+      isDraggingRef.current = true;
+      dragDistanceRef.current = 0;
       prevMousePos = { x: e.clientX, y: e.clientY };
     };
 
     const onMouseMove = (e) => {
-      if (!isDragging) return;
+      if (!isDraggingRef.current) return;
       const deltaX = e.clientX - prevMousePos.x;
       const deltaY = e.clientY - prevMousePos.y;
+      dragDistanceRef.current += Math.abs(deltaX) + Math.abs(deltaY);
       ball.rotation.y += deltaX * 0.015;
       ball.rotation.x += deltaY * 0.015;
       wireframe.rotation.y = ball.rotation.y;
@@ -109,21 +112,25 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
     };
 
     const onMouseUp = () => {
-      isDragging = false;
+      if (isDraggingRef.current && dragDistanceRef.current < 5) {
+        if (onSelect) onSelect(name);
+      }
+      isDraggingRef.current = false;
     };
 
-    // Touch support for mobile responsiveness
     const onTouchStart = (e) => {
       if (e.touches.length === 1) {
-        isDragging = true;
+        isDraggingRef.current = true;
+        dragDistanceRef.current = 0;
         prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       }
     };
 
     const onTouchMove = (e) => {
-      if (!isDragging || e.touches.length !== 1) return;
+      if (!isDraggingRef.current || e.touches.length !== 1) return;
       const deltaX = e.touches[0].clientX - prevMousePos.x;
       const deltaY = e.touches[0].clientY - prevMousePos.y;
+      dragDistanceRef.current += Math.abs(deltaX) + Math.abs(deltaY);
       ball.rotation.y += deltaX * 0.015;
       ball.rotation.x += deltaY * 0.015;
       wireframe.rotation.y = ball.rotation.y;
@@ -132,7 +139,10 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
     };
 
     const onTouchEnd = () => {
-      isDragging = false;
+      if (isDraggingRef.current && dragDistanceRef.current < 8) {
+        if (onSelect) onSelect(name);
+      }
+      isDraggingRef.current = false;
     };
 
     const domElement = renderer.domElement;
@@ -149,14 +159,12 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      if (!isDragging) {
-        // Natural rotational inertia & floating
+      if (!isDraggingRef.current) {
         ball.rotation.y += velocity.y;
         ball.rotation.x += velocity.x;
         wireframe.rotation.y = ball.rotation.y;
         wireframe.rotation.x = ball.rotation.x;
 
-        // Damping velocity toward idle drift
         velocity.x += (0.004 - velocity.x) * 0.02;
         velocity.y += (0.006 - velocity.y) * 0.02;
       }
@@ -172,7 +180,7 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
       window.removeEventListener("mouseup", onMouseUp);
       domElement.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
+      domElement.removeEventListener("touchend", onTouchEnd);
       cancelAnimationFrame(animationFrameId);
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
@@ -184,17 +192,33 @@ export const BallCanvas3D = ({ iconName, name, color = "#06b6d4" }) => {
       wireframeMat.dispose();
       texture.dispose();
     };
-  }, [iconName, name, color]);
+  }, [iconName, name, color, isSelected, onSelect]);
 
   return (
-    <div className="flex flex-col items-center gap-2 group cursor-grab active:cursor-grabbing select-none">
+    <div
+      onClick={() => onSelect && onSelect(name)}
+      className={`flex flex-col items-center gap-2 group cursor-pointer select-none p-2 rounded-2xl transition-all duration-300 ${
+        isSelected
+          ? "bg-slate-800/80 ring-2 ring-cyan-400 scale-105 shadow-xl shadow-cyan-500/10"
+          : "hover:bg-slate-800/40 hover:scale-105"
+      }`}
+    >
       <div
         ref={mountRef}
-        className="w-[105px] h-[105px] sm:w-[120px] sm:h-[120px] transition-transform duration-300 group-hover:scale-110"
+        className="w-[100px] h-[100px] sm:w-[115px] sm:h-[115px]"
       />
-      <span className="text-xs font-mono font-medium text-slate-300 group-hover:text-cyan-400 transition-colors">
+      <span
+        className={`text-xs font-mono font-medium transition-colors ${
+          isSelected ? "text-cyan-400 font-bold" : "text-slate-300 group-hover:text-cyan-400"
+        }`}
+      >
         {name}
       </span>
+      {isSelected && (
+        <span className="text-[10px] font-mono text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30">
+          Active
+        </span>
+      )}
     </div>
   );
 };
