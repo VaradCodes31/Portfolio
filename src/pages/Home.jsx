@@ -1,48 +1,44 @@
-import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { HeroSection } from "../components/HeroSection";
 import { ExperienceSection } from "../components/ExperienceSection";
 import { ProjectSection } from "../components/ProjectSection";
 import { SkillsSection } from "../components/SkillsSection";
-import { BlogSection } from "../components/BlogSection";
 import { AboutSection } from "../components/AboutSection";
 import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
+import { StarsCanvas3D } from "../components/canvas/StarsCanvas3D";
 
 export const Home = () => {
-  const [isQuickView, setIsQuickView] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#0b0f17] text-[#e2e8f0] overflow-x-hidden font-sans selection:bg-amber-500/30 selection:text-amber-200">
-      
-      {/* Field Journal Navigation Header */}
-      <Navbar isQuickView={isQuickView} setIsQuickView={setIsQuickView} />
+    <div className="min-h-screen bg-[#080c14] text-slate-100 overflow-x-hidden font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative">
+      {/* 3D Celestial Background Stars */}
+      <StarsCanvas3D />
 
-      {/* Main Journal Trajectory */}
-      <main>
-        {/* 01. Logbook & Hero Dossier */}
+      {/* Floating Dynamic Island Navigation */}
+      <Navbar />
+
+      {/* Main Trajectory */}
+      <main className="relative z-10">
+        {/* 01. Hero with 3D Neural/Quantum Canvas */}
         <HeroSection />
 
-        {/* 02. Rolls Royce Computational Methodology Experience */}
+        {/* 02. Industry Experience (Rolls-Royce & GDGoC) */}
         <ExperienceSection />
 
-        {/* 03. Applied Research Lab Manila Folders (SyndromeAI, NetSage IDS, BlockGuard) */}
+        {/* 03. Watermelon-UI Bento Projects (SyndromeAI, Netsage IDS, BlockGuard, Rolls-Royce FNO) */}
         <ProjectSection />
 
-        {/* 04. Technical Disciplines & Research Toolkit Bench */}
+        {/* 04. Technical Stack & 3D Floating Tech Balls */}
         <SkillsSection />
 
-        {/* 05. Research Field Notes & Interactive Logbook */}
-        <BlogSection />
-
-        {/* 01.5. Academic Rigor at MIT-WPU & GDGoC Leadership */}
+        {/* 05. MIT-WPU Academic Rigor & Foundations */}
         <AboutSection />
 
-        {/* 06. Field Memo & Direct Coordinate Transmission */}
+        {/* 06. 3D Earth Celestial Globe & Direct Transmission */}
         <ContactSection />
       </main>
 
-      {/* Colophon & Footer */}
+      {/* Modern Sleek Footer */}
       <Footer />
     </div>
   );
