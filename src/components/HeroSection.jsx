@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Download, Github, Linkedin, Mail, MapPin, Sparkles, Terminal, Activity, Layers, Cpu, Atom } from "lucide-react";
-import { HeroCanvas3D } from "./canvas/HeroCanvas3D";
+import { CandidateDossier } from "./ui/CandidateDossier";
 import { MagneticButton } from "./ui/MagneticButton";
 import { HaikeiWaves } from "./ui/HaikeiWaves";
 
@@ -110,25 +110,14 @@ export const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Functional 3D Interactive Canvas */}
+          {/* Right Column: High-Signal Candidate Dossier */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-5 flex flex-col items-center justify-center relative"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-5 flex flex-col items-center justify-center relative w-full"
           >
-            <div className="w-full relative rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-4 shadow-2xl shadow-cyan-500/5">
-              {/* Header Label inside 3D Container */}
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] font-mono text-slate-400">
-                <span className="flex items-center gap-1.5 text-cyan-400 font-semibold">
-                  <Atom size={13} /> Interactive 3D Model Explorer
-                </span>
-                <span className="text-slate-500">Drag to Orbit</span>
-              </div>
-
-              {/* Functional 3D Three.js Canvas */}
-              <HeroCanvas3D />
-            </div>
+            <CandidateDossier />
           </motion.div>
         </div>
       </div>
