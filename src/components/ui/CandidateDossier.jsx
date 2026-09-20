@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
-  UserCheck, 
+  Info, 
   Briefcase, 
   GraduationCap, 
   Users, 
-  Cpu, 
+  Trophy,
   Download, 
   Linkedin, 
   Github, 
@@ -13,10 +13,7 @@ import {
   Copy, 
   Check, 
   Sparkles, 
-  MapPin, 
-  ExternalLink,
-  Code2,
-  Globe2
+  MapPin
 } from "lucide-react";
 
 export const CandidateDossier = () => {
@@ -35,21 +32,22 @@ export const CandidateDossier = () => {
     { name: "Scikit-Learn", color: "text-amber-400 bg-amber-500/10 border-amber-500/20" },
     { name: "FastAPI", color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" },
     { name: "React", color: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20" },
-    { name: "Docker", color: "text-blue-400 bg-blue-500/10 border-blue-500/20" },
+    { name: "PySpark", color: "text-red-400 bg-red-500/10 border-red-500/20" },
+    { name: "Hadoop", color: "text-yellow-400 bg-yellow-500/10 border-yellow-500/20" },
     { name: "SQL", color: "text-teal-400 bg-teal-500/10 border-teal-500/20" },
   ];
 
   return (
     <div className="w-full rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 shadow-2xl shadow-cyan-500/5 text-slate-200">
-      {/* Dossier Header */}
+      {/* 1. Header with 'Key Information' & Centered Status Badge */}
       <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 text-[11px] font-mono">
         <span className="flex items-center gap-1.5 text-cyan-400 font-bold uppercase tracking-wider">
-          <UserCheck size={14} /> Candidate Dossier // 30-Sec Brief
+          <Info size={14} /> Key Information
         </span>
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Available for Roles
-        </span>
+        <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[11px] font-medium text-center">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+          <span className="inline-block text-center leading-none">Available for Roles</span>
+        </div>
       </div>
 
       {/* Identity Row */}
@@ -76,7 +74,7 @@ export const CandidateDossier = () => {
         </div>
       </div>
 
-      {/* 3-Point Executive Summary */}
+      {/* 3. Key Career Pillars */}
       <div className="py-3.5 border-b border-slate-800/60 space-y-2.5">
         <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
           Key Career Pillars
@@ -87,11 +85,16 @@ export const CandidateDossier = () => {
           <div className="p-1.5 rounded bg-emerald-500/10 text-emerald-400 mt-0.5 shrink-0">
             <Briefcase size={13} />
           </div>
-          <div>
-            <span className="font-bold text-white block">
-              Computational Methodology Intern @ Rolls Royce
-            </span>
-            <span className="text-slate-400 text-[11px] leading-tight">
+          <div className="w-full">
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="font-bold text-white block">
+                Computational Methodology Intern @ Rolls Royce
+              </span>
+              <span className="text-[10px] font-mono text-emerald-400 font-semibold">
+                Jul 2026 — Present
+              </span>
+            </div>
+            <span className="text-slate-400 text-[11px] leading-tight block mt-0.5">
               Formulating 3D Fourier Neural Operators (FNO) for voxel-wise structural response prediction.
             </span>
           </div>
@@ -102,12 +105,17 @@ export const CandidateDossier = () => {
           <div className="p-1.5 rounded bg-cyan-500/10 text-cyan-400 mt-0.5 shrink-0">
             <GraduationCap size={13} />
           </div>
-          <div>
-            <span className="font-bold text-white block">
-              B.Tech Computer Science @ MIT-WPU • <strong className="text-emerald-400 font-mono">CGPA: 8.74 / 10.0</strong>
-            </span>
-            <span className="text-slate-400 text-[11px] leading-tight">
-              Aug 2023 — Jul 2027 • Strong mathematical & deep learning theoretical foundations.
+          <div className="w-full">
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="font-bold text-white block">
+                B.Tech Computer Science @ MIT-WPU • <strong className="text-emerald-400 font-mono">CGPA: 8.74 / 10.0</strong>
+              </span>
+              <span className="text-[10px] font-mono text-cyan-400 font-semibold">
+                Aug 2023 — Jul 2027
+              </span>
+            </div>
+            <span className="text-slate-400 text-[11px] leading-tight block mt-0.5">
+              Strong mathematical foundations, deep learning, algorithms & distributed systems.
             </span>
           </div>
         </div>
@@ -117,43 +125,68 @@ export const CandidateDossier = () => {
           <div className="p-1.5 rounded bg-violet-500/10 text-violet-400 mt-0.5 shrink-0">
             <Users size={13} />
           </div>
-          <div>
-            <span className="font-bold text-white block">
-              Head of Design & Content (2+ Yrs) @ GDGoC
-            </span>
-            <span className="text-slate-400 text-[11px] leading-tight">
+          <div className="w-full">
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="font-bold text-white block">
+                Head of Design & Content (2+ Yrs) @ GDGoC
+              </span>
+              <span className="text-[10px] font-mono text-violet-400 font-semibold">
+                Feb 2024 — May 2026
+              </span>
+            </div>
+            <span className="text-slate-400 text-[11px] leading-tight block mt-0.5">
               Spearheaded visual branding & conferences (WOW Pune) reaching 1,500+ student developers.
+            </span>
+          </div>
+        </div>
+
+        {/* Pillar 4: Chess Instructor */}
+        <div className="flex items-start gap-2.5 text-xs p-2 rounded-lg bg-slate-950/60 border border-slate-800/70">
+          <div className="p-1.5 rounded bg-amber-500/10 text-amber-400 mt-0.5 shrink-0">
+            <Trophy size={13} />
+          </div>
+          <div className="w-full">
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="font-bold text-white block">
+                Chess Instructor @ Velankar Chess Institute
+              </span>
+              <span className="text-[10px] font-mono text-amber-400 font-semibold">
+                Aug 2023 — Present
+              </span>
+            </div>
+            <span className="text-slate-400 text-[11px] leading-tight block mt-0.5">
+              Pune (On-site) • Delivered structured training to 50+ students across 5 batches (theory, problem-solving & strategic decision-making).
             </span>
           </div>
         </div>
       </div>
 
-      {/* Core Engineering DNA */}
+      {/* 4. Core Engineering Strengths */}
       <div className="py-3.5 border-b border-slate-800/60 space-y-2">
         <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
           Core Engineering Strengths
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
           <div className="flex items-center gap-1.5 text-slate-300 p-1.5 rounded bg-slate-950/40 border border-slate-800/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>Physics-Informed Deep Learning</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+            <span>Core ML Engineer</span>
           </div>
           <div className="flex items-center gap-1.5 text-slate-300 p-1.5 rounded bg-slate-950/40 border border-slate-800/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-            <span>Quantum ML & Explainable AI (XAI)</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
+            <span>Explainable AI Systems</span>
           </div>
           <div className="flex items-center gap-1.5 text-slate-300 p-1.5 rounded bg-slate-950/40 border border-slate-800/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>High-Throughput ML Ingestion</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+            <span>End-to-end Pipelining</span>
           </div>
           <div className="flex items-center gap-1.5 text-slate-300 p-1.5 rounded bg-slate-950/40 border border-slate-800/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            <span>Sub-Second Full-Stack APIs</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+            <span>Blockchain Enthusiast</span>
           </div>
         </div>
       </div>
 
-      {/* Primary Stack Chips */}
+      {/* 5. Primary Stack Chips (with Big Data Tools: PySpark & Hadoop) */}
       <div className="pt-3 pb-4">
         <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold block mb-2">
           Primary Technical Toolkit
@@ -221,3 +254,4 @@ export const CandidateDossier = () => {
     </div>
   );
 };
+
